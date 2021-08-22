@@ -5,10 +5,10 @@ async function play(client, message, seek) {
   const serverQueue = await getQueue(message);
 
   if (!serverQueue.queue[0]) {
-    var meessage = `Hey there, looks like you have no more songs left in queue, Ill leave the voiceChannel to save resources`
+    var meessage = `Hey there, looks like you have no more songs left in queue, I'll leave the Voice Channel to save resources`
     var color = 'RANDOM'
     var embeeeeed = new Discord.MessageEmbed()
-    .setTitle('Leaving VoiceChannel')
+    .setTitle('Leaving Voice Channel')
     .setDescription(meessage)
     .setColor(color) 
     serverQueue.textChannel.send(embeeeeed);
@@ -22,6 +22,19 @@ async function play(client, message, seek) {
   };
   serverQueue.seek = seek
   var title = serverQueue.queue[0].videoDetails.title
+   const row = new MessageActionRow()
+	.addComponents(
+	new MessageButton()
+	.setCustomId('playpause')
+	.setLabel('Play/Pause')
+	.setStyle('primary'),
+  .setEmoji(':play_pause:'),
+new MessageButton()
+	.setCustomId('skip')
+	.setLabel('Skip')
+	.setStyle('primary'),
+  .setEmoji(':skip:'),
+			);
 var embeddddddd = new Discord.MessageEmbed()
 .setTitle('<a:music:838002356435812403> Now Playing <a:music:838002356435812403>')
 .setDescription(`Now Playing:
