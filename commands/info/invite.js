@@ -9,12 +9,12 @@ module.exports = {
     const botAdd = `[Thank you for adding me!](https://discord.com/api/oauth2/authorize?client_id=835894096501014588&permissions=0&scope=applications.commands%20bot
 )`
     const row = new MessageActionRow()
-			.addComponents(
-				new MessageButton()
-					.setCustomId('primary')
-        .setUrl(botAdd)
-					.setLabel('Invite Me :)')
-					.setStyle('url'),
+	.addComponents(
+	new MessageButton()
+	.setCustomId('primary')
+        .setUrl('https://discord.com/api/oauth2/authorize?client_id=835894096501014588&permissions=0&scope=applications.commands%20bot')
+	.setLabel('Invite Me :)')
+	.setStyle('url'),
 			);
     const embed = new Discord.MessageEmbed()
   
