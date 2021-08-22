@@ -1,4 +1,6 @@
 const Discord = require('discord.js')
+const { MessageActionRow, MessageButton } = require('discord.js');
+
 module.exports = {
   name: 'invite',
   description: 'Invite link',
@@ -6,6 +8,14 @@ module.exports = {
   execute(message, args) {
     const botAdd = `[Thank you for adding me!](https://discord.com/api/oauth2/authorize?client_id=835894096501014588&permissions=0&scope=applications.commands%20bot
 )`
+    const row = new MessageActionRow()
+			.addComponents(
+				new MessageButton()
+					.setCustomId('primary')
+        .setUrl(botAdd)
+					.setLabel('Invite Me :)')
+					.setStyle('url'),
+			);
     const embed = new Discord.MessageEmbed()
   
       .setTitle("Invite")
@@ -13,6 +23,6 @@ module.exports = {
       .setTimestamp()
       .setColor("RANDOM")
       .setDescription(botAdd);
-    message.channel.send(embed);
+    message.channel.send(embed, row);
   },
 };
