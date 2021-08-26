@@ -61,13 +61,13 @@ module.exports = {
 
                 if (queue.loop.enabled == true && queue.loop.single == true) {
                     queue.loop = { enabled: false, single: false };
-                    return button.message.channel.send("Loop mode was set to `OFF`!");
+                    return button.message.channel.send("✅ | Loop mode was set to `OFF`!");
                 } else if (queue.loop.enabled == false && queue.loop.single == false) {
                     queue.loop = { enabled: true, single: true };
-                    return button.message.channel.send("Loop mode was set to `SINGLE`!");
+                    return button.message.channel.send("✅ | Loop mode was set to `SINGLE`!");
                 } else if (queue.loop.enabled == false && queue.loop.single == true) {
                     queue.loop = { enabled: true, single: false };
-                    return button.message.channel.send("Loop mode was set to `QUEUE`!");
+                    return button.message.channel.send("✅ | Loop mode was set to `QUEUE`!");
                 } else {
                     return button.message.channel.send("Could not find the mode you are looking for!");
                 }
@@ -78,28 +78,23 @@ module.exports = {
                 if (queue.playing) {
                     queue.playing = false;
                     queue.connection.dispatcher.pause(true);
-                    return button.message.channel.send(`**${queue.queue[0].videoDetails.title}** has been paused!`);
+                    return button.message.channel.send(`✅ | paused the current track.`);
                 } else {
                     queue.playing = true;
                     queue.connection.dispatcher.pause(false);
-                    return button.message.channel.send(`**${queue.queue[0].videoDetails.title}** has been unpaused!`);
+                    return button.message.channel.send(`✅ | unpaused the current track.`);
                 }
             }
 
             if(button.id === "skip") {
-                if (queue.loop.enabled === true) {
-                    if (queue.loop.single === true || queue.queue.length < 2) {
-                        return queue.play(client, queue.textChannel);
-                    } else {
-                        queue.queue.push(queue.queue[0]);
-                        queue.queueauthor.push(queue.queueauthor[0]);
-                    }
-                }
                 queue.queue.shift();
                 queue.queueauthor.shift();
+ 
                 await queue.updateQueue(message, queue); 
 
                 queue.play(client, message)
+
+                return button.messsage.channel.send("✅ | Skipped the curent track.");
             }
 
         });
