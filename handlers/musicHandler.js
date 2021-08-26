@@ -51,6 +51,24 @@ async function play(client, message, seek) {
     //.setImage(thumbnails[thumbnails-1].url);
     serverQueue.textChannel.send(embeddddddd, musicaction)
     client.on('clickButton', async (button) => {
+        if(button.id === "skip") {
+            await button.reply.defer()
+
+            if (queue.loop.enabled == true && queue.loop.single == true) {
+                queue.loop = { enabled: false, single: false };
+                return button.message.channel.send("Loop mode was set to `OFF`!");
+            } else 
+                if (queue.loop.enabled == false && queue.loop.single == false) {
+                    queue.loop = { enabled: true, single: true };
+                    return button.message.channel.send("Loop mode was set to `SINGLE`!");
+                } else 
+                    if (queue.loop.enabled == false && queue.loop.single == true) {
+                        queue.loop = { enabled: true, single: false };
+                        return button.message.channel.send("Loop mode was set to `QUEUE`!");
+                    } else {
+                        return button.message.channel.send("Could not find the mode you are looking for!");
+                    }
+        }
         if(button.id === "playpause"){
 
             await button.reply.defer()
