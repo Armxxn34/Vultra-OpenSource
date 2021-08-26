@@ -76,18 +76,14 @@ async function play(client, message, seek) {
             //await button.message.channel.send("Music paused! Click the button or run the `nowplaying` command again to unpause!");
             //honestly idk how buttons work so I'm guessing here
 
-            if (!serverQueue.queue[0]) {
-                if (serverQueue.playing) {
-                    serverQueue.playing = false;
-                    serverQueue.connection.dispatcher.pause(true);
-                    return button.message.channel.send(`**${serverQueue.queue[0].videoDetails.title}** has been paused!`);
-                } else {
-                    serverQueue.playing = true;
-                    serverQueue.connection.dispatcher.pause(false);
-                    return button.message.channel.send(`**${serverQueue.queue[0].videoDetails.title}** has been unpaused!`);
-                }
+            if (serverQueue.playing) {
+                serverQueue.playing = false;
+                serverQueue.connection.dispatcher.pause(true);
+                return button.message.channel.send(`**${serverQueue.queue[0].videoDetails.title}** has been paused!`);
             } else {
-                return button.message.channel.send(`Could not interact, there's been an issue.`);
+                serverQueue.playing = true;
+                serverQueue.connection.dispatcher.pause(false);
+                return button.message.channel.send(`**${serverQueue.queue[0].videoDetails.title}** has been unpaused!`);
             }
         }
     });
