@@ -17,21 +17,10 @@ function bar(queue) {
     bar.splice(ballspot, 0, "⚪");
     return bar.join("")
 }
-let playpause = new disbut.MessageButton()
-.setStyle('blurple')
-.setLabel('Play/Pause') 
-.setEmoji('⏯')
-.setID('playpause') 
-
-
-let skip = new disbut.MessageButton()
-.setStyle('grey')
-.setLabel('Skip') 
-.setEmoji('⏭️')
-.setID('skip') 
-
-let musicaction = new disbut.MessageActionRow()
-.addComponents(playpause, skip);
+let left = new disbut.MessageButton().setID('loop').setLabel('🔁').setStyle('grey');
+let middle = new disbut.MessageButton().setID('playandpause').setLabel('⏯️').setStyle('blurple');
+let right = new disbut.MessageButton().setID('skip').setLabel('⏩').setStyle('grey');
+let musicaction = new disbut.MessageActionRow().addComponents(left, middle, right);
 
 
 
@@ -67,42 +56,52 @@ module.exports = {
         message.channel.send(embed, musicaction)
 
         client.on('clickButton', async (button) => {
-            if(button.id === "skip") {
+            if(button.id === "loop") {
                 await button.reply.defer()
-                
+
                 if (queue.loop.enabled == true && queue.loop.single == true) {
                     queue.loop = { enabled: false, single: false };
                     return button.message.channel.send("Loop mode was set to `OFF`!");
-                } else 
-                if (queue.loop.enabled == false && queue.loop.single == false) {
+                } else if (queue.loop.enabled == false && queue.loop.single == false) {
                     queue.loop = { enabled: true, single: true };
                     return button.message.channel.send("Loop mode was set to `SINGLE`!");
-                } else 
-                if (queue.loop.enabled == false && queue.loop.single == true) {
+                } else if (queue.loop.enabled == false && queue.loop.single == true) {
                     queue.loop = { enabled: true, single: false };
                     return button.message.channel.send("Loop mode was set to `QUEUE`!");
                 } else {
                     return button.message.channel.send("Could not find the mode you are looking for!");
                 }
             }
-            if(button.id === "playpause"){
+            if(button.id === "playandpause"){
                 await button.reply.defer()
-                //await button.message.channel.send("Music paused! Click the button or run the `nowplaying` command again to unpause!")
 
-                if (!queue.queue[0]) {
-                    if (queue.playing) {
-                        queue.playing = false;
-                        queue.connection.dispatcher.pause(true);
-                        return button.message.channel.send(`**${queue.queue[0].videoDetails.title}** has been paused!`);
-                    } else {
-                        queue.playing = true;
-                        queue.connection.dispatcher.pause(false);
-                        return button.message.channel.send(`**${queue.queue[0].videoDetails.title}** has been unpaused!`);
-                    }
+                if (queue.playing) {
+                    queue.playing = false;
+                    queue.connection.dispatcher.pause(true);
+                    return button.message.channel.send(`**${queue.queue[0].videoDetails.title}** has been paused!`);
                 } else {
-                    return button.message.channel.send(`Could not interact, there's been an issue.`);
+                    queue.playing = true;
+                    queue.connection.dispatcher.pause(false);
+                    return button.message.channel.send(`**${queue.queue[0].videoDetails.title}** has been unpaused!`);
                 }
             }
+
+            if(button.id === "skip") {
+                if (queue.loop.enabled === true) {
+                    if (queue.loop.single === true || queue.queue.length < 2) {
+                        return queue.play(client, queue.textChannel);
+                    } else {
+                        queue.queue.push(queue.queue[0]);
+                        queue.queueauthor.push(queue.queueauthor[0]);
+                    }
+                }
+                queue.queue.shift();
+                queue.queueauthor.shift();
+                await queue.updateQueue(message, queue); 
+
+                queue.play(client, message)
+            }
+
         });
 
     }
