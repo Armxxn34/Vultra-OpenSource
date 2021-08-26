@@ -34,13 +34,13 @@ async function play(client, message, seek) {
 
             if (serverQueue.loop.enabled == true && serverQueue.loop.single == true) {
                 serverQueue.loop = { enabled: false, single: false };
-                return button.message.channel.send("Loop mode was set to `OFF`!");
+                return button.message.channel.send("✅ | Loop mode was set to `OFF`!");
             } else if (serverQueue.loop.enabled == false && serverQueue.loop.single == false) {
                 serverQueue.loop = { enabled: true, single: true };
-                return button.message.channel.send("Loop mode was set to `SINGLE`!");
+                return button.message.channel.send("✅ | Loop mode was set to `SINGLE`!");
             } else if (serverQueue.loop.enabled == false && serverQueue.loop.single == true) {
                 serverQueue.loop = { enabled: true, single: false };
-                return button.message.channel.send("Loop mode was set to `QUEUE`!");
+                return button.message.channel.send("✅ | Loop mode was set to `QUEUE`!");
             } else {
                 return button.message.channel.send("Could not find the mode you are looking for!");
             }
@@ -49,35 +49,26 @@ async function play(client, message, seek) {
         if(button.id === "playandpause"){
             await button.reply.defer()
 
-            if (serverQueue.playing) {
+            if (!serverQueue.playing) {
                 serverQueue.playing = false;
                 serverQueue.connection.dispatcher.pause(true);
-                return button.message.channel.send(`**${serverQueue.queue[0].videoDetails.title}** has been paused!`);
+                return button.message.channel.send(`✅ | paused the current track.`);
             } else {
                 serverQueue.playing = true;
                 serverQueue.connection.dispatcher.pause(false);
-                return button.message.channel.send(`**${serverQueue.queue[0].videoDetails.title}** has been unpaused!`);
+                return button.message.channel.send(`✅ | unpaused the current track.`);
             }
         }
 
         if(button.id === "skip") {
-            if (serverQueue.loop.enabled === true) {
-                if (serverQueue.loop.single === true || serverQueue.queue.length < 2) {
-                    return play(client, serverQueue.textChannel);
-                } else {
-                    serverQueue.queue.push(serverQueue.queue[0]);
-                    queue.queueauthor.push(serverQueue.queueauthor[0]);
-                }
-            } else if (serverQueue.autoplay === true && !serverQueue.queue[1]) {  
-                var info = await ytdl.getInfo(`https://www.youtube.com/watch?v=${serverQueue.queue[0].related_videos[0].id}`);
-                serverQueue.queue.push(info);
-                serverQueue.queueauthor.push(message.author);
-            }
-            queue.queue.shift();
-            queue.queueauthor.shift();
-            await updateQueue(message, queue); 
+            serverQueue.queue.shift();
+            serverQueue.queueauthor.shift();
+
+            await updateQueue(message, serverQueue); 
 
             play(client, message)
+
+            return button.messsage.channel.send("✅ | Skipped the curent track.");
         }
     });
 
@@ -134,8 +125,8 @@ async function getQueue(message) {
         },
         autoplay: false
     },
-    serverQueue = queue.get(message.guild.id);
-    
+        serverQueue = queue.get(message.guild.id);
+
     if (!serverQueue) {
         queue.set(message.guild.id, queueConstruct);
         serverQueue = queueConstruct;
