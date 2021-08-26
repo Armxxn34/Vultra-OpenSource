@@ -54,16 +54,16 @@ async function play(client, message, seek) {
         if(button.id === "skip") {
             await button.reply.defer()
 
-            if (queue.loop.enabled == true && queue.loop.single == true) {
-                queue.loop = { enabled: false, single: false };
+            if (serverQueue.loop.enabled == true && serverQueue.loop.single == true) {
+                serverQueue.loop = { enabled: false, single: false };
                 return button.message.channel.send("Loop mode was set to `OFF`!");
             } else 
-                if (queue.loop.enabled == false && queue.loop.single == false) {
-                    queue.loop = { enabled: true, single: true };
+                if (serverQueue.loop.enabled == false && serverQueue.loop.single == false) {
+                    serverQueue.loop = { enabled: true, single: true };
                     return button.message.channel.send("Loop mode was set to `SINGLE`!");
                 } else 
-                    if (queue.loop.enabled == false && queue.loop.single == true) {
-                        queue.loop = { enabled: true, single: false };
+                    if (serverQueue.loop.enabled == false && serverQueue.loop.single == true) {
+                        serverQueue.loop = { enabled: true, single: false };
                         return button.message.channel.send("Loop mode was set to `QUEUE`!");
                     } else {
                         return button.message.channel.send("Could not find the mode you are looking for!");
