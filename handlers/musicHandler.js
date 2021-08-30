@@ -54,6 +54,8 @@ async function play(client, message, seek) {
                 serverQueue.connection.dispatcher.pause(true);
                 return button.message.channel.send(`✅ | paused the current track.`);
             } else {
+                serverQueue.dispatcher.resume();
+                //don't remove.
                 serverQueue.playing = true;
                 serverQueue.connection.dispatcher.pause(false);
                 return button.message.channel.send(`✅ | unpaused the current track.`);
