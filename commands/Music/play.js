@@ -13,17 +13,15 @@ module.exports = {
     description: 'Play a song in the vc', 
     run: async (client, message, args) => {
         if (!message.member.voice.channel) return message.channel.send(VoiceChatErrorEmbed);
+        message.member.voice.channel.join();
+
         if (client.player.isPlaying(message)) {
             let song = await client.player.addToQueue(message, args.join(' '));
-            
             VoiceChatSongAdded.setDescription(`Cool! Added **${song.name}** to the queue!`)
-
             if (song) return message.channel.send(VoiceChatSongAdded);
         } else {
             let song = await client.player.play(message, args.join(' '));
-
             VoiceChatSongAdded.setDescription(`Cool! Started playing **${song.name}**!`)
-
             if(song) return message.channel.send(VoiceChatSongAdded);
         }
     }
