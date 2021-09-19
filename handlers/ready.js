@@ -1,10 +1,12 @@
 const { default_prefix } = require('../config');
 
 module.exports = async bot => {
-    console.log(`${bot.user.username} has started up!`);
-
-    let totalUsers = bot.guilds.cache.reduce((acc, value) => acc + value.memberCount, 0);
-    var activities = [ `${bot.guilds.cache.size} servers`, `${totalUsers} users!` ], i = 0;
-
-    setInterval(() => bot.user.setActivity(`${default_prefix}help | ${activities[i++ % activities.length]}`, { type: "WATCHING" }),50000);
+    console.log(`${client.user.tag} is online!`);
+    const activities = [
+        `Vultra Support`,
+        `-help For Help!`,
+        `.gg/jEKVP8BXNJ`,
+    ];
+    let i = 0;
+    setInterval(() => client.user.setActivity(`${activities[i++ % activities.length]}`, { type: `LISTENING` }), 12000);
 };
