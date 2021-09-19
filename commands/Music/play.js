@@ -3,6 +3,7 @@ const { MessageEmbed } = require("discord.js");
 const ytsr = require('ytsr');
 
 /**** CREATE EMBEDS ****/
+const VoiceChatErrorPlayingMusic = new MessageEmbed.setColor('#0000ff').setDescription(`There was an error while trying to play music!`);
 const VoiceChatErrorEmbed = new MessageEmbed().setColor('#FF5757').setDescription(`You have to be in a Voice Chat to play music!`);
 const VoiceChatSongAdded = new MessageEmbed().setColor('#85b0d2');
 
@@ -15,14 +16,18 @@ module.exports = {
         if (!message.member.voice.channel) return message.channel.send(VoiceChatErrorEmbed);
         message.member.voice.channel.join();
 
-        if (client.player.isPlaying(message)) {
-            let song = await client.player.addToQueue(message, args.join(' '));
-            VoiceChatSongAdded.setDescription(`Cool! Added **${song.name}** to the queue!`)
-            if (song) return message.channel.send(VoiceChatSongAdded);
-        } else {
-            let song = await client.player.play(message, args.join(' '));
-            VoiceChatSongAdded.setDescription(`Cool! Started playing **${song.name}**!`)
-            if(song) return message.channel.send(VoiceChatSongAdded);
+        try {
+            if (client.player.isPlaying(message)) {
+                let song = await client.player.addToQueue(message, args.join(' '));
+                VoiceChatSongAdded.setDescription(`Cool! Added **${song.name}** to the queue!`)
+                if (song) return message.channel.send(VoiceChatSongAdded);
+            } else {
+                let song = await client.player.play(message, args.join(' '));
+                VoiceChatSongAdded.setDescription(`Cool! Started playing **${song.name}**!`)
+                if(song) return message.channel.send(VoiceChatSongAdded);
+            }
+        } catch (e) {
+            message.channel.send(VoiceChatErrorPlayingMusic);
         }
     }
 }
