@@ -52,14 +52,7 @@ client.on("message", async message => {
 
 /**** ON READY EVENT ****/
 client.on("ready", () => {
-  console.log(`${client.user.tag} is online!`);
-  const activities = [
-    `Vultra Support`,
-    `-help For Help!`,
-    `.gg/jEKVP8BXNJ`,
-  ];
-  let i = 0;
-  setInterval(() => client.user.setActivity(`${activities[i++ % activities.length]}`, { type: `LISTENING` }), 12000);
+    //empty for now. if you want to add anything go to ./handlers/ready.js - ItsOkayBae
 });
 
 /**** SAVE PLAYER CLIENT AS VARIABLE ****/
