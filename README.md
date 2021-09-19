@@ -1,3 +1,3 @@
 # Vultra
-The all in one bot
+-ALL IN ONE BOT *REWRITTEN BY ITSOKAYBAE*
 
