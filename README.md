@@ -1,3 +1,4 @@
 # Vultra
--ALL IN ONE BOT- *REWRITTEN BY ITSOKAYBAE*
+-ALL IN ONE BOT- no credit thx
+
 
