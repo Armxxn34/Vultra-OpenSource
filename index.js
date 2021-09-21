@@ -10,9 +10,11 @@ const fs = require('fs');
 client.on("ready", () => {
   console.log(`${client.user.tag} is online!`);
   const activities = [
-    `Vultra Support`,
-    `-help For Help!`,
-    `.gg/jEKVP8BXNJ`,
+    `Code created by:`,
+    `Armxxn34#8223`,
+    `Sid_#4553`,
+     `ItsOkayBae#1172`,
+     `AmineCrafter101#7818`,
   ];
   let i = 0;
   setInterval(() => client.user.setActivity(`${activities[i++ % activities.length]}`, { type: `LISTENING` }), 12000);
@@ -89,4 +91,4 @@ const commands = await getApp(guildId).commands.get()
         }
     });
 });
-client.login("ODM1ODk0MDk2NTAxMDE0NTg4.YIWFCg.nUEZniI1FD-LSwXYLNSq9b1I8nw");
+client.login("TOKEN HERE");
