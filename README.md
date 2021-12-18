@@ -18,4 +18,6 @@ Aspect - A game and meme bot and CoinHome - A economy bot (both using slash comm
 
 **Coinhome:** [Here](https://discord.com/api/oauth2/authorize?client_id=896727173136809994&permissions=0&scope=bot%20applications.commands)
 
-Rewriting this code to slash commands soon...
+Rewrote this code to slash commands at =>
+
+https://github.com/Armxxn34/VultraSlashCommands
